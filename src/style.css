@@ -1,0 +1,223 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --bg-primary: rgba(30, 30, 30, 0.7);
+  --bg-secondary: rgba(42, 42, 42, 0.6);
+  --divider: rgba(255, 255, 255, 0.12);
+  --hover-bg: rgba(255, 255, 255, 0.1);
+  --border-radius: 8px;
+
+  color: var(--text-primary);
+  background-color: transparent;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background: transparent !important;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+}
+
+/* Header Styles */
+.tracker-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--divider);
+  background-color: var(--bg-primary);
+}
+
+.tracker-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 32px;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Initiative List Styles */
+.initiative-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+#initiative-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.initiative-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border: 1px solid var(--divider);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.initiative-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.initiative-item.active-turn {
+  border: 2px solid #646cff;
+  background-color: rgba(100, 108, 255, 0.1);
+}
+
+.initiative-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.initiative-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 40px;
+  text-align: center;
+  padding: 4px 8px;
+  background-color: rgba(100, 108, 255, 0.2);
+  border-radius: 4px;
+  margin-left: 16px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.initiative-value:focus {
+  outline: none;
+  border-color: #646cff;
+  background-color: rgba(100, 108, 255, 0.3);
+}
+
+.initiative-value::-webkit-inner-spin-button,
+.initiative-value::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.initiative-value[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* Scrollbar Styles */
+.initiative-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.initiative-container::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+.initiative-container::-webkit-scrollbar-thumb {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+.initiative-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Next Turn Button */
+.next-turn-button {
+  margin: 8px;
+  padding: 12px 16px;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.next-turn-button:hover {
+  background-color: #535bf2;
+  transform: translateY(-1px);
+}
+
+.next-turn-button:active {
+  transform: translateY(0);
+}
+
+.next-turn-button:disabled {
+  background-color: rgba(100, 108, 255, 0.3);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Light Mode */
+@media (prefers-color-scheme: light) {
+  :root {
+    --text-primary: rgba(0, 0, 0, 0.9);
+    --text-secondary: rgba(0, 0, 0, 0.6);
+    --bg-primary: rgba(255, 255, 255, 0.7);
+    --bg-secondary: rgba(245, 245, 245, 0.6);
+    --divider: rgba(0, 0, 0, 0.12);
+    --hover-bg: rgba(0, 0, 0, 0.05);
+  }
+
+  .initiative-item.active-turn {
+    background-color: rgba(100, 108, 255, 0.15);
+  }
+
+  .initiative-container::-webkit-scrollbar-thumb {
+    background: rgba(182, 16, 16, 0.8);
+  }
+
+  .initiative-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(176, 176, 176, 0.9);
+  }
+}
+
