@@ -2,7 +2,7 @@ import OBR from "@owlbear-rodeo/sdk";
 
 const ID = "com.tutorial.initiative-tracker";
 
-export function setupInitiativeList(element, buttonElement) {
+export function setupInitiativeList(element, buttonElement, onTurnChange) {
     let currentTurnIndex = 0;
     let sortedItems = [];
 
@@ -57,6 +57,9 @@ export function setupInitiativeList(element, buttonElement) {
 
                 // Find the item in the full items list and update active state
                 OBR.scene.items.getItems().then((items) => {
+                    // Find the full item details for the active character
+                    const activeItem = items.find(item => item.id === initiativeItem.id);
+
                     OBR.scene.items.updateItems(items, (itemsToUpdate) => {
                         for (let item of itemsToUpdate) {
                             const metadata = item.metadata[`${ID}/metadata`];
@@ -69,6 +72,11 @@ export function setupInitiativeList(element, buttonElement) {
 
                     // Select the character
                     OBR.player.select([initiativeItem.id]);
+
+                    // Update turn indicator
+                    if (onTurnChange && activeItem) {
+                        onTurnChange(activeItem);
+                    }
                 });
             });
 
@@ -135,6 +143,9 @@ export function setupInitiativeList(element, buttonElement) {
 
             // Update all items to mark the new active one
             OBR.scene.items.getItems().then((items) => {
+                // Find the full item details for the active character
+                const activeItem = items.find(item => item.id === activeCharacterId);
+
                 OBR.scene.items.updateItems(items, (itemsToUpdate) => {
                     for (let item of itemsToUpdate) {
                         const metadata = item.metadata[`${ID}/metadata`];
@@ -148,6 +159,11 @@ export function setupInitiativeList(element, buttonElement) {
 
                 // Select the character whose turn it is
                 OBR.player.select([activeCharacterId]);
+
+                // Update turn indicator
+                if (onTurnChange && activeItem) {
+                    onTurnChange(activeItem);
+                }
             });
         });
     }
