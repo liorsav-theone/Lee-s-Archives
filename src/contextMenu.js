@@ -7,7 +7,7 @@ export function setupContextMenu() {
     id: `${ID}/context-menu`,
     icons: [
       {
-        icon: "/add.svg",
+        icon: "/Lee-s-Archives/add.svg",
         label: "Add to Initiative",
         filter: {
           every: [
@@ -17,7 +17,7 @@ export function setupContextMenu() {
         },
       },
       {
-        icon: "/remove.svg",
+        icon: "/Lee-s-Archives/remove.svg",
         label: "Remove from Initiative",
         filter: {
           every: [{ key: "layer", value: "CHARACTER" }],
