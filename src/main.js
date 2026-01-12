@@ -4,6 +4,8 @@ import { setupContextMenu } from "./contextMenu";
 import { setupInitiativeList } from "./initiativeList";
 import { isPlayer } from "./utils";
 import { buildMonsterIndex, getMonsterByTokenName } from "./monsterFetcher";
+import { renderStatBlock, initRenderer } from "./renderer";
+import { DiceRoller, initDiceHandlers, injectDiceStyles } from "./dice";
 
 const ID = "com.tutorial.initiative-tracker";
 
@@ -13,15 +15,18 @@ document.querySelector("#app").innerHTML = `
   </div>
   <button id="next-turn-button" class="next-turn-button">Next Turn</button>
   <div id="turn-indicator" class="turn-indicator">
-    <div id="turn-indicator-name" class="turn-indicator-name"></div>
-    <div id="turn-indicator-hp" class="turn-indicator-hp"></div>
+    <div id="turn-indicator-content"></div>
   </div>
 `;
 
 OBR.onReady(async () => {
+  // Initialize renderer and dice modules
+  initRenderer();
+  injectDiceStyles();
+  const diceRoller = new DiceRoller();
+
   const turnIndicator = document.querySelector("#turn-indicator");
-  const turnIndicatorName = document.querySelector("#turn-indicator-name");
-  const turnIndicatorHP = document.querySelector("#turn-indicator-hp");
+  const turnIndicatorContent = document.querySelector("#turn-indicator-content");
 
   // Build monster index on load
   console.log("Building monster index...");
@@ -52,14 +57,22 @@ OBR.onReady(async () => {
         });
       }
 
-      // Display the statblock info
+      // Display the full statblock
       if (statblock) {
-        turnIndicatorName.textContent = statblock.name || activeCharacter.name;
-        turnIndicatorHP.textContent = `HP: ${statblock.hp}`;
+        // Render the full stat block using the renderer
+        const statBlockHtml = renderStatBlock(statblock);
+        turnIndicatorContent.innerHTML = statBlockHtml;
+
+        // Initialize dice handlers for the stat block
+        initDiceHandlers(turnIndicatorContent, diceRoller);
       } else {
         // No statblock found - just show name
-        turnIndicatorName.textContent = activeCharacter.name;
-        turnIndicatorHP.textContent = "";
+        turnIndicatorContent.innerHTML = `
+          <div class="npc-name-fallback">
+            <div class="npc-name">${activeCharacter.name}</div>
+            <div class="npc-no-stats">No stat block found</div>
+          </div>
+        `;
       }
 
       turnIndicator.classList.add("visible");
