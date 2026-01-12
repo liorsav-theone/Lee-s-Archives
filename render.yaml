@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: lees-archives
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    headers:
+      - path: /*
+        name: Access-Control-Allow-Origin
+        value: "*"

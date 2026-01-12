@@ -4,7 +4,7 @@
   "manifest_version": 1,
   "action": {
     "title": "Initiative Tracker",
-    "icon": "/Lee-s-Archives/icon.svg",
+    "icon": "/icon.svg",
     "popover": "/",
     "height": 600,
     "width": 400
